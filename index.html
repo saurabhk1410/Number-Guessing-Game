@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess A Number</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        #prev{
+            display: flex;
+            column-gap: 5px;
+        }
+        #p{
+            display: flex;
+        }
+        .outer{
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: blueviolet;
+        }
+        .inner{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: aquamarine;
+            height: 30rem;
+            width: 25rem;
+            row-gap: 1rem;
+            border: solid black 5px;
+            border-radius: 15px;
+        }
+        #btn{
+            height: 2rem;
+            width: 5rem;
+            border-radius: 5px;
+        }
+        #guessnum{
+            height: 2rem;
+            width: 12rem;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <div class="inner">
+            <h2>Number Guessing Game</h2>
+            <p>Guess the number between 1 and 100</p>
+            <p>You have 10 attempts to guess the right number</p>
+            <input type="text" id="guessnum">
+            <button id="btn">Submit</button>
+            <p id="ans"></p>
+            <p id="p"><span>Previsous Guesses : </span><span id="prev"></span> </p>
+            <p>Guesses Remaining : <span id="Remaining"></span></p>
+        </div>
+    </div>
+    <script>
+        const prev=document.getElementById("prev")
+        const guessRemaining=document.getElementById("Remaining")
+        const answer=document.getElementById("ans")
+        let NoOfguessRemaining=10;
+        guessRemaining.innerText=NoOfguessRemaining;
+        const max=100
+        const min=1
+        const ans=Math.floor(Math.random()*(max-min+1))+min;
+        answer.innerText=ans;
+        const guesses=[];
+        const btn=document.querySelector("#btn")
+        btn.addEventListener("click",(e)=>{
+            let guess=Number(document.getElementById("guessnum").value);
+            document.getElementById("guessnum").value=""
+            if (guess!=ans && NoOfguessRemaining!=0) {
+                NoOfguessRemaining--;
+                guessRemaining.innerText=NoOfguessRemaining;
+                guesses.push(guess)
+                prev.innerText=""
+                guesses.forEach((ele)=>{
+                    const child=document.createElement("span")
+                    child.innerText=ele+" ";
+                    prev.appendChild(child);
+                })
+            }
+            else if(guess==ans){
+                const winner=document.createElement("p")
+                winner.innerText="YOU WIN..!!"
+                document.querySelector(".inner").appendChild(winner)
+            }
+            else{
+                const kii=document.createElement("p")
+                kii.innerText="YOU LOOOSE..!!"
+                document.querySelector(".inner").appendChild(kii)
+            }
+        })   
+        document.body.addEventListener("keyup",(e)=>{
+            if (e.keyCode===13) {
+                let guess=Number(document.getElementById("guessnum").value);
+            document.getElementById("guessnum").value=""
+            if (guess!=ans && NoOfguessRemaining!=0) {
+                NoOfguessRemaining--;
+                guessRemaining.innerText=NoOfguessRemaining;
+                guesses.push(guess)
+                prev.innerText=""
+                guesses.forEach((ele)=>{
+                    const child=document.createElement("span")
+                    child.innerText=ele;
+                    prev.appendChild(child);
+                })
+            }
+            else if(guess==ans){
+                const winner=document.createElement("p")
+                winner.innerText="YOU WIN..!!"
+                document.querySelector(".inner").appendChild(winner)
+            }
+            else{
+                const kii=document.createElement("p")
+                kii.innerText="YOU LOOOSE..!!"
+                document.querySelector(".inner").appendChild(kii)
+            }
+            } 
+        })   
+    </script>
+</body>
+</html>
